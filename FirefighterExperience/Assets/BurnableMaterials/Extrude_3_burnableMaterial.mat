@@ -24,11 +24,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: 29c7154522bf7354aa9e0f817be2297e, type: 3}
+        m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Burned:
-        m_Texture: {fileID: 2800000, guid: bdac7f80bdb58874b8b7bf397835214b, type: 3}
+        m_Texture: {fileID: 2800000, guid: a95f52500bf6e5244baaa814c3589ca8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BurnedEmission:
