@@ -1,0 +1,116 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 8
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: FernandoOleaDev_BurnShaderPosition
+  m_Shader: {fileID: 4800000, guid: e23d01f00fbee3d498d6cb2ddc8462b0, type: 3}
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
+  m_LightmapFlags: 0
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_LockedProperties: 
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: cd212f4fadebc22448a1e2e0b71802a4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Burned:
+        m_Texture: {fileID: 2800000, guid: a95f52500bf6e5244baaa814c3589ca8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BurnedEmission:
+        m_Texture: {fileID: 2800000, guid: c2a51129c261b2448875f79ed40b9322, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DistortionMap:
+        m_Texture: {fileID: 2800000, guid: 2b1a8f21a03ceac458be942cf1d2c3bb, type: 3}
+        m_Scale: {x: 4, y: 4}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 4b2ba27a6a753a94a8128faebf2f85a0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: 9b9805e3413e736459fea4fb7f7cbccd, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample4:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _TextureSample5:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Ints: []
+    m_Floats:
+    - _AlphaCutoff: 0.5
+    - _BorderOffset: 0.066
+    - _BorderOpacity: 0.654
+    - _BorderOpacity2: 22.1
+    - _BorderThickness: 0.13
+    - _Burn: 0
+    - _BurnComplement: 1
+    - _BurnEmissiveValue: 0.716
+    - _BurnLineOffset: 0.42
+    - _BurnLineOppacity: 0
+    - _BurnLineThickness: 1.06
+    - _BurndValuie: 0
+    - _BurnedEmissionQuantity: 0.494
+    - _BurnedEmissionValue: 0
+    - _BurnedEmissionValuie: 1
+    - _BurnedValue: 0
+    - _BurnedValuie: 0
+    - _ChromaticAberration: 0.1
+    - _Cutoff: 0.5
+    - _DissolveAmount: 0
+    - _DistortionAmount: 0.5
+    - _EmissionValue: 0.005
+    - _Heatwave: 0.1
+    - _NoiseValue: 0.15
+    - _Opacity: 1
+    - _Oppacity: 0.399
+    - _Radious: 2
+    - _ScrollSpeed: 0.5
+    - _Smoothness: 0
+    - _TransAmbient: 0.2
+    - _TransDirect: 1
+    - _TransNormalDistortion: 0.1
+    - _TransScattering: 2
+    - _TransShadow: 0.9
+    - _Translucency: 1
+    - _WiggleAmount: 0.05
+    - __dirty: 0
+    m_Colors:
+    - _AlbedoColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BorderColor: {r: 0, g: 0.93669206, b: 22.363522, a: 1}
+    - _BurnLineColor: {r: 67.79352, g: 13.842655, b: 0, a: 1}
+    - _BurnedEmissiveColor: {r: 254.99994, g: 98, b: 0, a: 1}
+    - _Color2: {r: 1, g: 1, b: 1, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Hot: {r: 0.9887359, g: 1, b: 0, a: 0}
+    - _IgnitePosition: {r: -1.079, g: 0.304, b: 2.851, a: 0}
+    - _TextCoords: {r: 0, g: 0, b: 0, a: 0}
+    - _Warm: {r: 1, g: 0.3847524, b: 0, a: 0}
+  m_BuildTextureStacks: []

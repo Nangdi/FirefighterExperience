@@ -1,0 +1,78 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: Table_burnableMaterial
+  m_Shader: {fileID: 4800000, guid: e23d01f00fbee3d498d6cb2ddc8462b0, type: 3}
+  m_ShaderKeywords: 
+  m_LightmapFlags: 2
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: -1
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _Albedo:
+        m_Texture: {fileID: 2800000, guid: 47a3987f6f31b2a4996cbd0d16ae8201, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Burned:
+        m_Texture: {fileID: 2800000, guid: a95f52500bf6e5244baaa814c3589ca8, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BurnedEmission:
+        m_Texture: {fileID: 2800000, guid: c2a51129c261b2448875f79ed40b9322, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DistortionMap:
+        m_Texture: {fileID: 2800000, guid: 2b1a8f21a03ceac458be942cf1d2c3bb, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Mask:
+        m_Texture: {fileID: 2800000, guid: 4b2ba27a6a753a94a8128faebf2f85a0, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _Normal:
+        m_Texture: {fileID: 2800000, guid: a271c7e9cbd0c054f811dc79d1f2fec4, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _texcoord:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AlphaCutoff: 0.5
+    - _BorderOffset: 0.058
+    - _Burn: 0
+    - _BurnComplement: 0.5
+    - _BurnEmissiveValue: 0.716
+    - _BurnedEmissionQuantity: 0.5
+    - _BurnedEmissionValue: 0.5
+    - _BurnedValue: 0
+    - _Cutoff: 0.5
+    - _DistortionAmount: 0.5
+    - _Heatwave: 0.1
+    - _Metallic: 0
+    - _NoiseValue: 0.15
+    - _Opacity: 1
+    - _Radious: 2
+    - _ScrollSpeed: 0.5
+    - _Smoothness: 0
+    - _WiggleAmount: 0.05
+    - __dirty: 0
+    m_Colors:
+    - _AlbedoColor: {r: 1, g: 1, b: 1, a: 0}
+    - _BorderColor: {r: 0, g: 0.08873497, b: 2.1185474, a: 1}
+    - _BurnedEmissiveColor: {r: 2, g: 0.9960784, b: 0, a: 1}
+    - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Hot: {r: 0.98873585, g: 1, b: 0, a: 0}
+    - _IgnitePosition: {r: -0.79, g: 0.136, b: 2.02, a: 0}
+    - _Warm: {r: 1, g: 0.38475236, b: 0, a: 0}
+  m_BuildTextureStacks: []

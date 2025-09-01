@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 4c34f6061463dc2418c3070903f2cc13
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - particlesFirePrefab: {fileID: 4558340311577695490, guid: 5f6a13245c49c8c45a077a6c0cf5c05a,
+      type: 3}
+  - particlesAshesPrefab: {fileID: 8003842722924758247, guid: a73f115267a71d14b95bf964202a63d3,
+      type: 3}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
