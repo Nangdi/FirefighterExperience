@@ -95,5 +95,7 @@ InitTestScene*.unity*
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers.meta
 
-# Auto-generated scenes by play mode tests
-/[Aa]ssets/[Ii]nit[Tt]est[Ss]cene*.unity*
+# Ignore specific large FBX files
+Assets/2.Model/model/room-1.fbx
+Assets/2.Model/model/room-2.fbx
+Assets/2.Model/model/room-3.fbx
