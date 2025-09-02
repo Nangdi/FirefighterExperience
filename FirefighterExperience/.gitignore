@@ -96,6 +96,6 @@ InitTestScene*.unity*
 /[Aa]ssets/Unity.VisualScripting.Generated/VisualScripting.Core/Property Providers.meta
 
 # Ignore specific large FBX files
-Assets/2.Model/model/room-1.fbx
-Assets/2.Model/model/room-2.fbx
+Assets/2.Model/model/room-1_0901.fbx
+Assets/2.Model/model/room-2_0901.fbx
 Assets/2.Model/model/room-3.fbx

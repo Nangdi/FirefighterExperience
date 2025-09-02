@@ -724,6 +724,72 @@ Blend Off
 
 // 			ENDHLSL
 // 		}
+// Pass           mmmmmmmmmmmmmmmmmmmmmmmmmmmmmㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+// {
+//     Name "ForwardLit"
+//     Tags { "LightMode"="UniversalForward" }
+
+//     HLSLPROGRAM
+//     #pragma vertex vert
+//     #pragma fragment frag
+//     #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+//     #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
+
+//     struct Attributes {
+//         float4 positionOS : POSITION;
+//         float3 normalOS   : NORMAL;
+//         float2 uv         : TEXCOORD0;
+//     };
+
+//     struct Varyings {
+//         float4 positionCS : SV_POSITION;
+//         float3 positionWS : TEXCOORD0;
+//         float3 normalWS   : TEXCOORD1;
+//         float2 uv         : TEXCOORD2;
+//     };
+
+//     Varyings vert (Attributes IN) {
+//         Varyings OUT;
+//         OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
+//         OUT.positionCS = TransformWorldToHClip(OUT.positionWS);
+//         OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
+//         OUT.uv = IN.uv;
+//         return OUT;
+//     }
+
+//     // === BurnableObject 가 제어하는 머티리얼 변수들 ===
+//     CBUFFER_START(UnityPerMaterial)
+//         float4 _AlbedoColor;
+//         float  _BurnedValue;
+//         float  _Burn;
+//         float  _BurnedEmissionValue;
+//         float  _BurnedEmissionQuantity;
+//         float  _Opacity;
+//         float4 _Hot;
+//         float4 _Warm;
+//         float4 _BurnedEmissiveColor;
+//         float4 _BorderColor;
+//         float3 _IgnitePosition;
+//     CBUFFER_END
+
+//     TEXTURE2D(_Albedo);        SAMPLER(sampler_Albedo);
+//     TEXTURE2D(_Burned);        SAMPLER(sampler_Burned);
+//     TEXTURE2D(_BurnedEmission);SAMPLER(sampler_BurnedEmission);
+
+//    half4 frag (Varyings IN) : SV_Target
+// {
+//     // 기본 알베도
+//     float3 texAlbedo = SAMPLE_TEXTURE2D(_Albedo, sampler_Albedo, IN.uv).rgb;
+//     float3 texBurned = SAMPLE_TEXTURE2D(_Burned, sampler_Burned, IN.uv).rgb;
+//     float3 albedoMix = lerp(texAlbedo, texBurned, _BurnedValue);
+
+//     half3 albedo = albedoMix * _AlbedoColor.rgb * _Opacity;
+
+//     // 단순 색상 출력 (씬 전체 조명/그림자만 영향받음)
+//     return half4(albedo, 1.0);
+// }
+//     ENDHLSL
+// }
 Pass
 {
     Name "ForwardLit"
@@ -732,6 +798,11 @@ Pass
     HLSLPROGRAM
     #pragma vertex vert
     #pragma fragment frag
+    #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE
+    #pragma multi_compile _ _ADDITIONAL_LIGHTS_VERTEX _ADDITIONAL_LIGHTS
+    #pragma multi_compile_fragment _ _SHADOWS_SOFT
+    #pragma multi_compile_fog
+
     #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
     #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
 
@@ -746,65 +817,58 @@ Pass
         float3 positionWS : TEXCOORD0;
         float3 normalWS   : TEXCOORD1;
         float2 uv         : TEXCOORD2;
+        float4 shadowCoord : TEXCOORD3;
     };
 
     Varyings vert (Attributes IN) {
         Varyings OUT;
         OUT.positionWS = TransformObjectToWorld(IN.positionOS.xyz);
         OUT.positionCS = TransformWorldToHClip(OUT.positionWS);
-        OUT.normalWS = TransformObjectToWorldNormal(IN.normalOS);
-        OUT.uv = IN.uv;
+        OUT.normalWS   = TransformObjectToWorldNormal(IN.normalOS);
+        OUT.uv         = IN.uv;
+        OUT.shadowCoord = TransformWorldToShadowCoord(OUT.positionWS);
         return OUT;
     }
 
-    // === BurnableObject 가 제어하는 머티리얼 변수들 ===
+    // BurnableObject 변수들 유지
     CBUFFER_START(UnityPerMaterial)
         float4 _AlbedoColor;
         float  _BurnedValue;
-        float  _Burn;
-        float  _BurnedEmissionValue;
-        float  _BurnedEmissionQuantity;
         float  _Opacity;
-        float4 _Hot;
-        float4 _Warm;
-        float4 _BurnedEmissiveColor;
-        float4 _BorderColor;
-        float3 _IgnitePosition;
     CBUFFER_END
 
-    TEXTURE2D(_Albedo);        SAMPLER(sampler_Albedo);
-    TEXTURE2D(_Burned);        SAMPLER(sampler_Burned);
-    TEXTURE2D(_BurnedEmission);SAMPLER(sampler_BurnedEmission);
+    TEXTURE2D(_Albedo); SAMPLER(sampler_Albedo);
+    TEXTURE2D(_Burned); SAMPLER(sampler_Burned);
 
     half4 frag (Varyings IN) : SV_Target
     {
-        // 🔥 원본 / 불탄 텍스처 섞기
+        // 원본 / 불탄 텍스처 섞기
         float3 texAlbedo = SAMPLE_TEXTURE2D(_Albedo, sampler_Albedo, IN.uv).rgb;
         float3 texBurned = SAMPLE_TEXTURE2D(_Burned, sampler_Burned, IN.uv).rgb;
         float3 albedoMix = lerp(texAlbedo, texBurned, _BurnedValue);
 
-        // AlbedoColor × Opacity 적용
+        // 최종 색상
         half3 albedo = albedoMix * _AlbedoColor.rgb * _Opacity;
 
-        // 🔥 발광 (불꽃 / 잔열)
-        float3 burnedEmissionTex = SAMPLE_TEXTURE2D(_BurnedEmission, sampler_BurnedEmission, IN.uv).rgb;
-        half3 emission = _BurnedEmissionQuantity * (_BurnedValue * (_BurnedEmissiveColor.rgb * burnedEmissionTex) * _BurnedEmissionValue);
+       // 표준 Unity 조명 입력
+InputData lightingInput = (InputData)0;
+lightingInput.positionWS      = IN.positionWS;
+lightingInput.normalWS        = normalize(IN.normalWS);
+lightingInput.viewDirectionWS = GetWorldSpaceViewDir(IN.positionWS);
+lightingInput.shadowCoord     = IN.shadowCoord;
 
-        // === URP PBR 라이팅 ===
-        InputData lightingInput = (InputData)0;
-        lightingInput.positionWS = IN.positionWS;
-        lightingInput.normalWS   = normalize(IN.normalWS);
-        lightingInput.viewDirectionWS = GetWorldSpaceViewDir(IN.positionWS);
-        lightingInput.shadowCoord = TransformWorldToShadowCoord(IN.positionWS);
-
+// ✅ 추가: GI / Ambient / Fog
+lightingInput.bakedGI         = SAMPLE_GI(IN.uv, IN.positionWS, lightingInput.normalWS);
+lightingInput.vertexLighting  = 0;
+lightingInput.fogCoord        = ComputeFogFactor(IN.positionCS.z);
+        // PBR SurfaceData
         SurfaceData surface = (SurfaceData)0;
         surface.albedo = albedo;
         surface.metallic = 0.0;
         surface.specular = 0.5;
         surface.smoothness = 0.5;
-        surface.normalTS = float3(0,0,1);
         surface.occlusion = 1.0;
-        surface.emission = emission;
+        surface.emission = 0;
 
         return UniversalFragmentPBR(lightingInput, surface);
     }

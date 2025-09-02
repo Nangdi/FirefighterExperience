@@ -24,11 +24,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 26ada3a0c685b8f43b8889dd5aacd3a4, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Burned:
-        m_Texture: {fileID: 2800000, guid: a95f52500bf6e5244baaa814c3589ca8, type: 3}
+        m_Texture: {fileID: 2800000, guid: 1192eb8ab71c7fe46825e17c30864114, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BurnedEmission:
@@ -47,6 +47,10 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    - _baseMap_BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     - _texcoord:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
@@ -61,7 +65,6 @@ Material:
     - _BurnedEmissionQuantity: 0.5
     - _BurnedEmissionValue: 0.716
     - _BurnedValue: 0
-    - _Cutoff: 0.5
     - _DistortionAmount: 0.5
     - _Heatwave: 0.1
     - _NoiseValue: 0.15
@@ -70,13 +73,12 @@ Material:
     - _ScrollSpeed: 0.5
     - _Smoothness: 0
     - _WiggleAmount: 0.05
-    - __dirty: 1
     m_Colors:
     - _AlbedoColor: {r: 1, g: 1, b: 1, a: 1}
     - _BorderColor: {r: 0, g: 0.2140574, b: 1, a: 0}
     - _BurnedEmissiveColor: {r: 2, g: 0.9960784, b: 0, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Hot: {r: 0.98873585, g: 1, b: 0, a: 0}
-    - _IgnitePosition: {r: -1.0649068, g: -25.614769, b: -49.055363, a: 0}
+    - _IgnitePosition: {r: 0, g: 5.232985, b: -7.9102273, a: 0}
     - _Warm: {r: 1, g: 0.38475236, b: 0, a: 0}
   m_BuildTextureStacks: []
