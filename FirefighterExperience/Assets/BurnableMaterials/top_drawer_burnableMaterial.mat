@@ -7,7 +7,7 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: door_2_burnableMaterial
+  m_Name: top_drawer_burnableMaterial
   m_Shader: {fileID: 4800000, guid: e23d01f00fbee3d498d6cb2ddc8462b0, type: 3}
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
@@ -24,11 +24,11 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _Albedo:
-        m_Texture: {fileID: 2800000, guid: 9bd073775d500044080ec5c723a4041d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 644cb80ee2a42cf42a411de143b52fa3, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Burned:
-        m_Texture: {fileID: 2800000, guid: 4d6e8ee8449d85e49aa1a845568df0eb, type: 3}
+        m_Texture: {fileID: 2800000, guid: bdac7f80bdb58874b8b7bf397835214b, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BurnedEmission:
@@ -79,6 +79,6 @@ Material:
     - _BurnedEmissiveColor: {r: 2, g: 0.9960784, b: 0, a: 1}
     - _EmissionColor: {r: 1, g: 1, b: 1, a: 1}
     - _Hot: {r: 0.98873585, g: 1, b: 0, a: 0}
-    - _IgnitePosition: {r: -15.315981, g: 7.5942373, b: -6.0474486, a: 0}
+    - _IgnitePosition: {r: -7.6820006, g: 6.7140136, b: -7.1088767, a: 0}
     - _Warm: {r: 1, g: 0.38475236, b: 0, a: 0}
   m_BuildTextureStacks: []

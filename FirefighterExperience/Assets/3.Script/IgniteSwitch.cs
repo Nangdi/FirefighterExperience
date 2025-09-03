@@ -1,3 +1,4 @@
+using FernandoOleaDev.FyreSystem;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -9,8 +10,10 @@ public class IgniteSwitch : MonoBehaviour
     public float invisibleTime = 7;
     public float elapsedTime;
     private bool ignite = false;
-
+    private bool startSmoke = false;
     private ParticleSystem particleSystem;
+
+    [SerializeField] private BurnableObject tartgetBurn;
     private void Awake()
     {
         TryGetComponent(out particleSystem);
@@ -27,7 +30,7 @@ public class IgniteSwitch : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (!GameManager.instance.startGame) return;
+        if (!startSmoke) return;
         
         elapsedTime += Time.deltaTime;
         if(elapsedTime >= igniteTime && !ignite)
@@ -35,6 +38,8 @@ public class IgniteSwitch : MonoBehaviour
             if(ignite == false)
             {
                 //Á¡È­
+                tartgetBurn.Ignite(tartgetBurn.transform.position);
+                tartgetBurn.StartBurned(10);
                 ignite = true;
             }
         }
@@ -51,18 +56,20 @@ public class IgniteSwitch : MonoBehaviour
         ignite = false;
         elapsedTime = 0;
         SetColorAlpha(1);
-        StartCoroutine(StopSmoke_co());
     }
     private IEnumerator StopSmoke_co()
     {
          SetColorAlpha(0);
          yield return new WaitForSeconds(2);
         particleSystem.Stop();
+        startSmoke = false;
 
     }
-    public void IgniteSmoke()
+    public void StartSmoke()
     {
+        SetColorAlpha(1);
         particleSystem.Play();
+        startSmoke = true;
     }
     private void SetColorAlpha(float value)
     {
@@ -73,6 +80,7 @@ public class IgniteSwitch : MonoBehaviour
     }
     private void OnDisable()
     {
-        GameManager.instance.onGameEnd -= ResetData;
+        if (GameManager.instance != null)
+            GameManager.instance.onGameEnd -= ResetData;
     }
 }

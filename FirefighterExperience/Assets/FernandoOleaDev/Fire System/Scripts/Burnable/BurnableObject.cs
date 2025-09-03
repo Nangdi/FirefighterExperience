@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -131,10 +131,16 @@ namespace FernandoOleaDev.FyreSystem {
         [Header("Editor vars")]
         [HideInInspector] public bool dontAsk;
 
+
+        public float duration = 5f; // A시간 (5초 예시)
+        private float elapsed;
+        private float value; // 0~1 값
+        private bool isRunning;
+
         #endregion
 
         #region Unity Methods
-        
+
         void Start() {
             InitMaterial();
             InitParticles();
@@ -146,7 +152,15 @@ namespace FernandoOleaDev.FyreSystem {
                 Ignite(transform.position);
             }
         }
-
+        //private void OnEnable()
+        //{
+        //    GameManager.instance.onGameEnd += ResetBurendValue;
+        //}
+        //private void OnDisable()
+        //{
+        //    GameManager.instance.onGameEnd += ResetBurendValue;
+            
+        //}
         void Update() {
             if (burning || (burnedUp && !cold) || (burnedUp && withAshes && !disappeared)) {
                 Burn();
@@ -156,8 +170,20 @@ namespace FernandoOleaDev.FyreSystem {
             } else {
                 material.SetVector("_IgnitePosition", transform.position);
             }
-            
-            
+            if (isRunning)
+            {
+                elapsed += Time.deltaTime;
+                value = Mathf.Clamp01(elapsed / duration); // 0~1로 변환
+
+                // 👉 여기서 Shader 값에 반영 가능
+                material.SetFloat("_BurnedValue", value);
+
+                if (value >= 1f)
+                {
+                    isRunning = false; // 완료
+                }
+            }
+
         }
         
         #endregion
@@ -205,7 +231,67 @@ namespace FernandoOleaDev.FyreSystem {
             igniteAreaController.OnIgniteCheck();
             OnBurnableIgnited.Invoke();
         }
+        /// <summary>
+        /// 강제로 불을 끄는 함수
+        /// </summary>
+        public void Extinguish()
+        {
+            // 상태 리셋
+            burning = false;
+            burnedUp = false;
+            cold = false;
+            disappeared = false;
+            propagationFnished = false;
 
+            // 시간 리셋
+            elapsedSecondsFlamePropagation = 0f;
+            elapsedSecondsCombustionSeconds = 0f;
+            elapsedSecondsColling = 0f;
+            elapsedSecondsDisappear = 0f;
+
+            flamePropagationPercent = 0f;
+            combustionPercent = 0f;
+            coolingPercent = 0f;
+            disappearPercent = 0f;
+
+            // 파티클 정지
+            if (particlesOn)
+            {
+                ParticlesFireOff();
+                particlesOn = false;
+            }
+            if (particlesAshesOn)
+            {
+                ParticlesAshesOff();
+                particlesAshesOn = false;
+            }
+
+            // 라이트 정지
+            if (lightGameobject != null)
+            {
+                Destroy(lightGameobject);
+                lightGameobject = null;
+                light = null;
+                lightFlickerEffect = null;
+            }
+
+            // 머티리얼 초기화
+            if (material != null)
+            {
+                material.SetFloat("_Opacity", 1f);
+                material.SetFloat("_Burn", 0f);
+                material.SetFloat("_BurnedValue", 0f);
+                material.SetFloat("_BurnedEmissionValue", 0f);
+                material.SetVector("_IgnitePosition", transform.position);
+            }
+
+            // igniteGameobject 정리
+            if (igniteGameobject != null)
+            {
+                Destroy(igniteGameobject);
+                igniteGameobject = null;
+            }
+        }
         private void SetIgnitePosition() {
             material.SetVector("_IgnitePosition", igniteGameobject.transform.position);
         }
@@ -243,6 +329,19 @@ namespace FernandoOleaDev.FyreSystem {
             coolingPercent = elapsedSecondsColling / coolingSeconds;
             SetBurn();
             CheckPercents();
+        }
+        public void StartBurned(float time)
+        {
+            duration = time;
+            elapsed = 0f;
+            value = 0f;
+            isRunning = true;
+        }
+        public void ResetBurendValue()
+        {
+            elapsed = 0f;
+            value = 0f;
+            isRunning = false;
         }
 
         private void CheckPercents() {
@@ -305,7 +404,7 @@ namespace FernandoOleaDev.FyreSystem {
             material.SetFloat("_Burn",flameValue);
             if (combustionPercent >= combustionsSignsAtCombustionPercent) {
                 float combustionValue = (combustionPercent - combustionsSignsAtCombustionPercent) * (1.0f/(1.0f-combustionsSignsAtCombustionPercent));
-                material.SetFloat("_BurnedValue", Mathf.Clamp(combustionValue, 0, 1));
+                //material.SetFloat("_BurnedValue", Mathf.Clamp(combustionValue, 0, 1));
             }
             material.SetFloat("_BurnedEmissionValue",coolingCurve.Evaluate(1-coolingPercent));
         }
@@ -454,6 +553,7 @@ namespace FernandoOleaDev.FyreSystem {
         void OnEnable() {
             myTarget = (BurnableObject)target;
             CheckMaterial();
+           
         }
 
         public override void OnInspectorGUI() {
