@@ -24,6 +24,14 @@ public class PlayerManager : MonoBehaviour
     public float targetTime =5;
     //신호받을때마다 갱신할 시간
     public float updateTime;
+    private void OnEnable()
+    {
+        GameManager.instance.onGameEnd += ResetPlayerSetting;
+    }
+    private void OnDisable()
+    {
+        GameManager.instance.onGameEnd -= ResetPlayerSetting;
+    }
 
     private void Update()
     {
@@ -41,7 +49,7 @@ public class PlayerManager : MonoBehaviour
             {
                 //불끄는 메소드 실행
                 playTime = 0;
-                targetIndex = FireManager.instance.SetFireSize((int)playerNum, targetIndex);
+                targetIndex = FireManager.instance.SetFireSize((int)playerNum, targetIndex ,-2);
             }
         }
         else
@@ -54,4 +62,12 @@ public class PlayerManager : MonoBehaviour
         isPlaying = true;
         updateTime = 0;
     }
+    public void ResetPlayerSetting()
+    {
+        targetIndex = 3;
+        updateTime = 0;
+        isPlaying = false;
+        playTime = 0;
+    }
+   
 }

@@ -180,6 +180,7 @@ namespace FernandoOleaDev.FyreSystem {
 
                 if (value >= 1f)
                 {
+                    
                     isRunning = false; // 완료
                 }
             }

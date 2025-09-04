@@ -37,12 +37,13 @@ public class GameManager : MonoBehaviour
     [SerializeField] private IgniteSwitch[] igniteSwitches_2;
     [SerializeField] private IgniteSwitch[] igniteSwitches_3;
     [SerializeField] private PlayerManager[] players;
+    [SerializeField] private GameObject[] fakeWindows;
     public float gameTime = 140;
     public float nextIgniteTime;
     public float currentTime;
     public bool startGame;
     public event Action onGameEnd;
-
+    public bool ReadyWater;
     private void Awake()
     {
         // 중복 방지
@@ -66,14 +67,39 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        if (!startGame) return;
-        if (Input.GetKey(KeyCode.Q))
+        if (Input.GetKeyDown(KeyCode.A))
         {
-            SendPortToPlayer(0);
+            GameStart();
+        }
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            Instantiate(fakeWindows[0]);
+            Instantiate(fakeWindows[0]);
+            Instantiate(fakeWindows[1]);
+            Instantiate(fakeWindows[1]);
+            Instantiate(fakeWindows[2]);
+            Instantiate(fakeWindows[2]);
+        }
+        if (!startGame) return;
+        if (/*ReadyWater*/ true)
+        {
+            if (Input.GetKeyDown(KeyCode.Q))
+            {
+                SendPortToPlayer(0);
+            }
+            if (Input.GetKeyDown(KeyCode.W))
+            {
+                SendPortToPlayer(1);
+            }
+            if (Input.GetKeyDown(KeyCode.E))
+            {
+                SendPortToPlayer(2);
+            }
+
         }
 
         currentTime += Time.deltaTime;
-        if(currentTime >= gameTime && startGame)
+        if (currentTime >= gameTime && startGame)
         {
             startGame = false;
             //게임종료
@@ -86,6 +112,7 @@ public class GameManager : MonoBehaviour
         currentTime = 0;
         nextIgniteTime = 0;
         startGame = false;
+        ReadyWater = false;
         onGameEnd.Invoke();
     }
     public void GameStart()
@@ -93,6 +120,7 @@ public class GameManager : MonoBehaviour
         startGame = true;
         IgniteSmoke();
         StartCoroutine(FireManager.instance.ReservationBurnWall_co(35));
+        StartCoroutine(GameStartDelay(45));
     }
     //여기서 시간차로
     private void IgniteSmoke()
@@ -107,7 +135,7 @@ public class GameManager : MonoBehaviour
                     time = (k - 1) * 10; 
                 }
                 StartCoroutine(FireManager.instance.ReservationSmoke_co(igniteGroup[i][k], time));
-                Debug.Log($"{k * 10}초 후 예약완료");
+                Debug.Log($"{time}초 후 예약완료");
 
 
 
@@ -123,5 +151,18 @@ public class GameManager : MonoBehaviour
     public void SendPortToPlayer(int index)
     {
         players[index].UpdatePlaying();
+    }
+
+    public IEnumerator GameStartDelay(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        ReadyWater = true;
+        Instantiate(fakeWindows[0]);
+        Instantiate(fakeWindows[0]);
+        Instantiate(fakeWindows[1]);
+        Instantiate(fakeWindows[1]);
+        Instantiate(fakeWindows[2]);
+        Instantiate(fakeWindows[2]);
+        Debug.Log("게임시작!");
     }
 }

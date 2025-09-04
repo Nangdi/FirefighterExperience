@@ -90,7 +90,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture_Normal:
-        m_Texture: {fileID: 2800000, guid: ac632feda5efeff46804cb2dedff080c, type: 3}
+        m_Texture: {fileID: 2800000, guid: d9aae06331d582940a53fd7b0dfdd6f8, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _Texture_Reflect:
