@@ -12,6 +12,7 @@ public class FireManager : MonoBehaviour
     [SerializeField] private BurnableObject[] burnableObjects_1;
     [SerializeField] private BurnableObject[] burnableObjects_2;
     [SerializeField] private BurnableObject[] burnableObjects_3;
+    [SerializeField] private BurnableObject[] wallObs;
 
     private int startCount =0;
     private void Awake()
@@ -68,14 +69,35 @@ public class FireManager : MonoBehaviour
         yield return new WaitForSeconds(reservationTime);
         igniteSwitch.StartSmoke();
     }
-    public void SetFireSize(int num , int index)
+    public IEnumerator ReservationBurnWall_co(float reservationTime)
+    {
+        yield return new WaitForSeconds(reservationTime);
+        for (int i = 0; i < wallObs.Length; i++)
+        {
+            wallObs[i].StartBurned(10);
+        }
+    }
+    public int SetFireSize(int num , int index)
     {
        ParticleSystem ps = particleSystems[num][index].transform.GetChild(0).GetComponent<ParticleSystem>();
-
+        if (index ==3 && particleSystems[num].Length >=5)
+        {
+            SetFireSize(num, 4);
+        }
         var main = ps.main;
         var sizeCurve = main.startSize;
 
         sizeCurve.constantMax -= 1.0f; // 1씩 감소시키기
+        Debug.Log(sizeCurve.constantMax);
+        if(sizeCurve.constantMax <= 0)
+        {
+            index -= 1;
+            if(index <= 0)
+            {
+                index = 0;
+            }
+        }
         main.startSize = sizeCurve;
+        return index;
     }
 }

@@ -439,6 +439,8 @@ MonoBehaviour:
   - {fileID: 365236762}
   - {fileID: 2002319535}
   - {fileID: 922028968}
+  players:
+  - {fileID: 2065808974}
   gameTime: 140
   nextIgniteTime: 0
   currentTime: 0
@@ -2065,6 +2067,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 15ce3bd86bd1c3641abebf4ecba3a4c8, type: 3}
+--- !u!1 &1806159771
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1806159772}
+  m_Layer: 0
+  m_Name: igniteGameobject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1806159772
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1806159771}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0.7071068, z: -0, w: -0.7071068}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.99999976, y: 1, z: 0.99999976}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 4921548453801881856}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1841295527
 GameObject:
   m_ObjectHideFlags: 0
@@ -2361,10 +2394,15 @@ MonoBehaviour:
   - {fileID: 6807954666375470561}
   burnableObjects_3:
   - {fileID: 3123416785618208569}
-  - {fileID: 3112791387817171527}
+  - {fileID: 4980700978739412310}
   - {fileID: 7299666266061612221}
   - {fileID: 9021435515332943131}
   - {fileID: 9204993687470226746}
+  wallObs:
+  - {fileID: 7324129575727518579}
+  - {fileID: 8582267547138707300}
+  - {fileID: 4921548453801881857}
+  - {fileID: 7728628609100535325}
 --- !u!4 &1939427527
 Transform:
   m_ObjectHideFlags: 0
@@ -2373,12 +2411,12 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1939427525}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 40, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 7324113167635748862}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1994858219
 PrefabInstance:
@@ -2600,6 +2638,56 @@ MonoBehaviour:
   invisibleTime: 7
   elapsedTime: 0
   tartgetBurn: {fileID: 9204993687470226746}
+--- !u!1 &2065808973
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2065808975}
+  - component: {fileID: 2065808974}
+  m_Layer: 0
+  m_Name: Player_1
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &2065808974
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065808973}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f0238a089f55ea48b01238bccf2bf4b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerNum: 0
+  targetIndex: 3
+  isPlaying: 0
+  playTime: 0
+  targetTime: 5
+  updateTime: 0
+--- !u!4 &2065808975
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2065808973}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0.12485027, y: 0.7390671, z: -5.419386}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2115206649
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -9672,7 +9760,8 @@ Transform:
   m_LocalPosition: {x: -16.705242, y: 0, z: 8.98392}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1806159772}
   m_Father: {fileID: 4334198898780645695}
   m_LocalEulerAnglesHint: {x: 0, y: 270, z: 0}
 --- !u!114 &4921548453801881857
@@ -9698,7 +9787,7 @@ MonoBehaviour:
   flamePropagationSeconds: 5
   propagationSmooth: 4
   combustionSeconds: 10
-  combustionsSignsAtCombustionPercent: 0.218
+  combustionsSignsAtCombustionPercent: 0.275
   coolingSeconds: 3
   coolingCurve:
     serializedVersion: 2
@@ -12458,6 +12547,7 @@ Transform:
   - {fileID: 8097810928572506242}
   - {fileID: 1516276964507399232}
   - {fileID: 5395437710800741102}
+  - {fileID: 1939427527}
   m_Father: {fileID: 543450653034668719}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &7324113169654034207
@@ -12585,7 +12675,7 @@ MonoBehaviour:
   flamePropagationSeconds: 5
   propagationSmooth: 4
   combustionSeconds: 10
-  combustionsSignsAtCombustionPercent: 0.218
+  combustionsSignsAtCombustionPercent: 0.275
   coolingSeconds: 3
   coolingCurve:
     serializedVersion: 2
@@ -13131,7 +13221,7 @@ MonoBehaviour:
   flamePropagationSeconds: 5
   propagationSmooth: 4
   combustionSeconds: 10
-  combustionsSignsAtCombustionPercent: 0.218
+  combustionsSignsAtCombustionPercent: 0.275
   coolingSeconds: 3
   coolingCurve:
     serializedVersion: 2
@@ -14716,7 +14806,7 @@ MonoBehaviour:
   flamePropagationSeconds: 5
   propagationSmooth: 4
   combustionSeconds: 10
-  combustionsSignsAtCombustionPercent: 0.218
+  combustionsSignsAtCombustionPercent: 0.275
   coolingSeconds: 3
   coolingCurve:
     serializedVersion: 2
@@ -15678,8 +15768,8 @@ SceneRoots:
   - {fileID: 1718140973}
   - {fileID: 543450652367936078}
   - {fileID: 543450653034668719}
-  - {fileID: 1939427527}
   - {fileID: 334013885}
   - {fileID: 346793378}
   - {fileID: 853585673}
   - {fileID: 1701437772}
+  - {fileID: 2065808975}

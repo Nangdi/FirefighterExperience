@@ -46,6 +46,7 @@ public class IgniteSwitch : MonoBehaviour
         if(elapsedTime >= invisibleTime && particleSystem.isPlaying)
         {
             //연기스탑
+            //Debug.Log("연기스탑");
             StartCoroutine(StopSmoke_co());
             // alpha 값 서서히 내려서 없애기
 

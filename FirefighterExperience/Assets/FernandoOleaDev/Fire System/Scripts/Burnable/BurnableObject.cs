@@ -330,18 +330,13 @@ namespace FernandoOleaDev.FyreSystem {
             SetBurn();
             CheckPercents();
         }
+        //시작할때 초기화
         public void StartBurned(float time)
         {
             duration = time;
             elapsed = 0f;
             value = 0f;
             isRunning = true;
-        }
-        public void ResetBurendValue()
-        {
-            elapsed = 0f;
-            value = 0f;
-            isRunning = false;
         }
 
         private void CheckPercents() {

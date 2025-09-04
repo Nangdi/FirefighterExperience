@@ -36,6 +36,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private IgniteSwitch[] igniteSwitches_1;
     [SerializeField] private IgniteSwitch[] igniteSwitches_2;
     [SerializeField] private IgniteSwitch[] igniteSwitches_3;
+    [SerializeField] private PlayerManager[] players;
     public float gameTime = 140;
     public float nextIgniteTime;
     public float currentTime;
@@ -66,13 +67,17 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         if (!startGame) return;
-
+        if (Input.GetKey(KeyCode.Q))
+        {
+            SendPortToPlayer(0);
+        }
 
         currentTime += Time.deltaTime;
         if(currentTime >= gameTime && startGame)
         {
             startGame = false;
             //게임종료
+            Debug.Log("게임종료 시간초과");
             GameEnd();
         }
     }
@@ -87,6 +92,7 @@ public class GameManager : MonoBehaviour
     {
         startGame = true;
         IgniteSmoke();
+        StartCoroutine(FireManager.instance.ReservationBurnWall_co(35));
     }
     //여기서 시간차로
     private void IgniteSmoke()
@@ -108,7 +114,14 @@ public class GameManager : MonoBehaviour
 
             }
         }
+       
+           
+       
+
     }
     
-
+    public void SendPortToPlayer(int index)
+    {
+        players[index].UpdatePlaying();
+    }
 }
