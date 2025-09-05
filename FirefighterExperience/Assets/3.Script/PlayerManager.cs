@@ -70,7 +70,7 @@ public class PlayerManager : MonoBehaviour
         targetIndex = 3;
         updateTime = 0;
         isPlaying = false;
-        playTime = 0;
+        playTime = 5;
     }
    
 }

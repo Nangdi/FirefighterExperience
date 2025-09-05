@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
@@ -39,6 +40,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private PlayerManager[] players;
     [SerializeField] private GameObject[] fakeWindows;
     [SerializeField] public ParticleFadeController[] particleFadeControllers;
+    [SerializeField] private SpriteRenderer blackScreen;
     public float gameTime = 140;
     public float nextIgniteTime;
     public float currentTime;
@@ -66,7 +68,11 @@ public class GameManager : MonoBehaviour
         igniteGroup.Add(igniteSwitches_2);
         igniteGroup.Add(igniteSwitches_3);
         AudioManager.Instance.StopBGM();
+        Application.runInBackground = true;
+        if (Display.displays.Length > 1) Display.displays[1].Activate();
+        if (Display.displays.Length > 2) Display.displays[2].Activate();
         GameEnd();
+
     }
     private void Update()
     {
@@ -124,6 +130,7 @@ public class GameManager : MonoBehaviour
         nextIgniteTime = 0;
         startGame = false;
         ReadyWater = false;
+        FadeScreen(1);
         for (int i = 0; i < particleFadeControllers.Length; i++)
         {
             particleFadeControllers[i].StopParticle();
@@ -136,6 +143,7 @@ public class GameManager : MonoBehaviour
         startGame = true;
         IgniteSmoke();
         Debug.Log("브금재생되는곳");
+        FadeScreen(0);
         AudioManager.Instance.PlayBGM();
         StartCoroutine(FireManager.instance.ReservationBurnWall_co(35));
         StartCoroutine(GameStartDelay(45));
@@ -193,5 +201,28 @@ public class GameManager : MonoBehaviour
        
         AudioManager.Instance.PlaySFX(1, 0.5f, false, 3);
         Debug.Log("게임시작!");
+    }
+    public void FadeScreen(float targetAlpha)
+    {
+        //StopAllCoroutines(); // 여러 코루틴이 겹치지 않도록
+        StartCoroutine(FadeCoroutine(targetAlpha));
+    }
+
+    private IEnumerator FadeCoroutine(float targetAlpha)
+    {
+        Color startColor = blackScreen.color;
+        float startAlpha = startColor.a;
+        float t = 0f;
+
+        while (t < 2)
+        {
+            t += Time.deltaTime;
+            float newAlpha = Mathf.Lerp(startAlpha, targetAlpha, t / 2);
+            blackScreen.color = new Color(startColor.r, startColor.g, startColor.b, newAlpha);
+            yield return null;
+        }
+
+        // 마지막 보정
+        blackScreen.color = new Color(startColor.r, startColor.g, startColor.b, targetAlpha);
     }
 }
