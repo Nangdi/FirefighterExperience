@@ -30,6 +30,7 @@ public class PlayerManager : MonoBehaviour
     }
     private void OnDisable()
     {
+        if(GameManager.instance !=null)
         GameManager.instance.onGameEnd -= ResetPlayerSetting;
     }
 
@@ -49,6 +50,8 @@ public class PlayerManager : MonoBehaviour
             {
                 //불끄는 메소드 실행
                 playTime = 0;
+                AudioManager.Instance.PlaySFX(3, 1, false, 1);
+                targetTime = Random.Range(5f, 6f);
                 targetIndex = FireManager.instance.SetFireSize((int)playerNum, targetIndex ,-2);
             }
         }

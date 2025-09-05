@@ -38,12 +38,15 @@ public class GameManager : MonoBehaviour
     [SerializeField] private IgniteSwitch[] igniteSwitches_3;
     [SerializeField] private PlayerManager[] players;
     [SerializeField] private GameObject[] fakeWindows;
+    [SerializeField] public ParticleFadeController[] particleFadeControllers;
     public float gameTime = 140;
     public float nextIgniteTime;
     public float currentTime;
     public bool startGame;
     public event Action onGameEnd;
     public bool ReadyWater;
+
+    public bool FastPlay;
     private void Awake()
     {
         // 중복 방지
@@ -62,7 +65,7 @@ public class GameManager : MonoBehaviour
         igniteGroup.Add(igniteSwitches_1);
         igniteGroup.Add(igniteSwitches_2);
         igniteGroup.Add(igniteSwitches_3);
-
+        AudioManager.Instance.StopBGM();
         GameEnd();
     }
     private void Update()
@@ -81,7 +84,15 @@ public class GameManager : MonoBehaviour
             Instantiate(fakeWindows[2]);
         }
         if (!startGame) return;
-        if (/*ReadyWater*/ true)
+        if (Input.GetKeyDown(KeyCode.S))
+        {
+            Time.timeScale = 5;
+        }
+        else if(Input.GetKeyUp(KeyCode.S))
+        {
+            Time.timeScale = 1;
+        }
+        if (ReadyWater)
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -113,14 +124,24 @@ public class GameManager : MonoBehaviour
         nextIgniteTime = 0;
         startGame = false;
         ReadyWater = false;
+        for (int i = 0; i < particleFadeControllers.Length; i++)
+        {
+            particleFadeControllers[i].StopParticle();
+        }
+        AudioManager.Instance.StopBGM();
         onGameEnd.Invoke();
     }
     public void GameStart()
     {
         startGame = true;
         IgniteSmoke();
+        Debug.Log("브금재생되는곳");
+        AudioManager.Instance.PlayBGM();
         StartCoroutine(FireManager.instance.ReservationBurnWall_co(35));
         StartCoroutine(GameStartDelay(45));
+
+        //불붙는배경음
+        AudioManager.Instance.PlaySFX(0,0.5f, false, 5);
     }
     //여기서 시간차로
     private void IgniteSmoke()
@@ -155,6 +176,8 @@ public class GameManager : MonoBehaviour
 
     public IEnumerator GameStartDelay(float delay)
     {
+
+
         yield return new WaitForSeconds(delay);
         ReadyWater = true;
         Instantiate(fakeWindows[0]);
@@ -163,6 +186,12 @@ public class GameManager : MonoBehaviour
         Instantiate(fakeWindows[1]);
         Instantiate(fakeWindows[2]);
         Instantiate(fakeWindows[2]);
+        for (int i = 0; i < particleFadeControllers.Length; i++)
+        {
+            particleFadeControllers[i].PlayParticle();
+        }
+       
+        AudioManager.Instance.PlaySFX(1, 0.5f, false, 3);
         Debug.Log("게임시작!");
     }
 }

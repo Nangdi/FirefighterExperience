@@ -47,6 +47,7 @@ public class FireManager : MonoBehaviour
     }
     private void OnDisable()
     {
+        if(GameManager.instance !=null)
         GameManager.instance.onGameEnd -= AllResetObject;
     }
     //불붙이는 메소드
@@ -109,6 +110,7 @@ public class FireManager : MonoBehaviour
         {
             wallObs[i].StartBurned(10);
         }
+      
     }
     public int SetFireSize(int num , int index ,float amount)
     {
@@ -126,9 +128,10 @@ public class FireManager : MonoBehaviour
         if(sizeCurve.constantMax <= 0)
         {
             index -= 1;
-            if(index <= 0)
+            if(index < 0)
             {
                 index = 0;
+                GameManager.instance.particleFadeControllers[num].StopParticle();
             }
         }
         main.startSize = sizeCurve;
