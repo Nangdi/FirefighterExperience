@@ -37,7 +37,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private IgniteSwitch[] igniteSwitches_1;
     [SerializeField] private IgniteSwitch[] igniteSwitches_2;
     [SerializeField] private IgniteSwitch[] igniteSwitches_3;
-    [SerializeField] private PlayerManager[] players;
+    [SerializeField] private PlayerController[] players;
     [SerializeField] private GameObject[] fakeWindows;
     [SerializeField] public ParticleFadeController[] particleFadeControllers;
     [SerializeField] private SpriteRenderer blackScreen;
@@ -68,9 +68,9 @@ public class GameManager : MonoBehaviour
         igniteGroup.Add(igniteSwitches_2);
         igniteGroup.Add(igniteSwitches_3);
         AudioManager.Instance.StopBGM();
-        Application.runInBackground = true;
-        if (Display.displays.Length > 1) Display.displays[1].Activate();
-        if (Display.displays.Length > 2) Display.displays[2].Activate();
+        //Application.runInBackground = true;
+        ///*if (Display.displays.Length > 1) */Display.displays[1].Activate();
+        ///*if (Display.displays.Length > 2) */Display.displays[2].Activate();
         GameEnd();
 
     }
