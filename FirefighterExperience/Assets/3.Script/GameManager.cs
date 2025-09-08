@@ -4,6 +4,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+
+
+
 public class GameManager : MonoBehaviour
 {
 
@@ -30,7 +33,7 @@ public class GameManager : MonoBehaviour
             return _instance;
         }
     }
-
+    [SerializeField] private GameSettingPanel gameSettingPanel;
 
     [SerializeField] private List<IgniteSwitch[]> igniteGroup = new List<IgniteSwitch[]>();
 
@@ -41,7 +44,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject[] fakeWindows;
     [SerializeField] public ParticleFadeController[] particleFadeControllers;
     [SerializeField] private SpriteRenderer blackScreen;
-    public float gameTime = 140;
+    public float playTime = 140;
     public float nextIgniteTime;
     public float currentTime;
     public bool startGame;
@@ -73,10 +76,17 @@ public class GameManager : MonoBehaviour
         ///*if (Display.displays.Length > 2) */Display.displays[2].Activate();
         GameEnd();
 
+        if (Application.isEditor)
+        {
+            Cursor.visible = false;
+            return;
+        }
+        playTime = JsonManager.instance.gameSettingData.playTime;
+
     }
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.A))
+        if (Input.GetKeyDown(KeyCode.A) && !startGame)
         {
             GameStart();
         }
@@ -116,7 +126,7 @@ public class GameManager : MonoBehaviour
         }
 
         currentTime += Time.deltaTime;
-        if (currentTime >= gameTime && startGame)
+        if (currentTime >= playTime && startGame)
         {
             startGame = false;
             //게임종료
@@ -146,10 +156,10 @@ public class GameManager : MonoBehaviour
         FadeScreen(0);
         AudioManager.Instance.PlayBGM();
         StartCoroutine(FireManager.instance.ReservationBurnWall_co(35));
-        StartCoroutine(GameStartDelay(45));
+        StartCoroutine(GameStartDelay(JsonManager.instance.gameSettingData.ReadyTime));
 
         //불붙는배경음
-        AudioManager.Instance.PlaySFX(0,0.5f, false, 5);
+        AudioManager.Instance.PlaySFX(0, false, 5);
     }
     //여기서 시간차로
     private void IgniteSmoke()
@@ -199,7 +209,7 @@ public class GameManager : MonoBehaviour
             particleFadeControllers[i].PlayParticle();
         }
        
-        AudioManager.Instance.PlaySFX(1, 0.5f, false, 3);
+        AudioManager.Instance.PlaySFX(1,  false, 3);
         Debug.Log("게임시작!");
     }
     public void FadeScreen(float targetAlpha)

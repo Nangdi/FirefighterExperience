@@ -8,18 +8,13 @@ using System.Threading.Tasks;
 using Unity.VisualScripting;
 using UnityEngine;
 [Serializable]
-public class PortJson
-{
-    public string com = "COM4";
-    public int baudLate = 19200;
-}
+
 public class SerialPortManager : MonoBehaviour
 {
     public static SerialPortManager Instance { get; private set; }
 
     PortJson portJson = new PortJson();
 
-    private string filePath;
 
     SerialPort serialPort;
     private CancellationTokenSource cancellationTokenSource; // CancellationTokenSource 추가
@@ -37,13 +32,12 @@ public class SerialPortManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-        filePath = Path.Combine(Application.streamingAssetsPath, "port.json");
     }
     
     protected virtual void Start()
     {
         // 포트 열기
-        portJson = JsonManager.LoadData(filePath, portJson);
+        portJson = JsonManager.instance.portJson;
         Debug.Log($"포트 데이터 로드됨: COM={portJson.com}, Baud={portJson.baudLate}");
         serialPort = new SerialPort(portJson.com, portJson.baudLate, Parity.None, 8, StopBits.One);
 

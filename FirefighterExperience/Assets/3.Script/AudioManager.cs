@@ -15,6 +15,10 @@ public class AudioManager : MonoBehaviour
     public AudioClip bgm;
     public AudioClip[] sfxs;
 
+    [Header("Volume Settings")]
+    [Range(0f, 1f)] public float bgmVolume = 1f;
+    [Range(0f, 1f)] public float sfxVolume = 1f;
+
     private void Awake()
     {
         if (Instance != null && Instance != this)
@@ -33,36 +37,46 @@ public class AudioManager : MonoBehaviour
             sfxPool.Add(src);
         }
     }
-
+    private void Start()
+    {
+        bgmVolume = JsonManager.instance.gameSettingData.bgmVolume;
+        sfxVolume = JsonManager.instance.gameSettingData.sfxVolume;
+    }
     // ==============================
     // BGM
     // ==============================
-    public void PlayBGM( float volume = 1f)
+    public void PlayBGM()
     {
         bgmSource.clip = bgm;
-        bgmSource.volume = volume;
+        bgmSource.volume = bgmVolume;
         bgmSource.loop = true;
         bgmSource.Play();
     }
 
     public void StopBGM() => bgmSource.Stop();
 
+    public void SetBGMVolume(float volume)
+    {
+        bgmVolume = Mathf.Clamp01(volume);
+        bgmSource.volume = bgmVolume;   // 실행 중에도 바로 반영
+    }
+
     // ==============================
     // SFX
     // ==============================
-    public AudioSource PlaySFX(int audioNum, float volume = 1f, bool loop = false, float fadeOutDuration = 0f)
+    public AudioSource PlaySFX(int audioNum, bool loop = false, float fadeOutDuration = 0f)
     {
-        AudioClip clip = sfxs[audioNum];
+        if (audioNum < 0 || audioNum >= sfxs.Length) return null;
 
+        AudioClip clip = sfxs[audioNum];
         if (clip == null) return null;
 
         AudioSource src = GetAvailableSFXSource();
         src.clip = clip;
-        src.volume = volume;
+        src.volume = sfxVolume;
         src.loop = loop;
         src.Play();
 
-        // 루프가 아니고, 페이드아웃 시간이 지정되어 있으면 자동 페이드아웃 코루틴 실행
         if (!loop && fadeOutDuration > 0f)
         {
             StartCoroutine(AutoFadeOutCoroutine(src, fadeOutDuration));
@@ -71,18 +85,28 @@ public class AudioManager : MonoBehaviour
         return src;
     }
 
+    public void SetSFXVolume(float volume)
+    {
+        sfxVolume = Mathf.Clamp01(volume);
+
+        // 현재 재생 중인 SFX에도 즉시 반영
+        foreach (var src in sfxPool)
+        {
+            if (src.isPlaying)
+                src.volume = sfxVolume;
+        }
+    }
+
     private IEnumerator AutoFadeOutCoroutine(AudioSource src, float fadeDuration)
     {
         float clipLength = src.clip.length;
-        float startFadeTime = Time.time + clipLength - fadeDuration; // 언제부터 페이드 시작할지
+        float startFadeTime = Time.time + clipLength - fadeDuration;
 
-        // 페이드 시작 시점까지 대기
         while (Time.time < startFadeTime && src.isPlaying)
         {
             yield return null;
         }
 
-        // 페이드 진행
         float startVolume = src.volume;
         float t = 0f;
         while (t < fadeDuration && src.isPlaying)
@@ -93,7 +117,7 @@ public class AudioManager : MonoBehaviour
         }
 
         src.Stop();
-        src.volume = startVolume; // 다음 재생을 위해 원래 볼륨 복원
+        src.volume = startVolume;
     }
 
     private AudioSource GetAvailableSFXSource()
