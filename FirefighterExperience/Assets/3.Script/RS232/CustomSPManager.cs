@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class CustomSPManager : SerialPortManager
@@ -16,23 +17,23 @@ public class CustomSPManager : SerialPortManager
     {
         switch (data)
         {
-            case "80A":
+            case "80a":
                 if (!GameManager.instance.startGame)
                 {
                 Debug.Log("게임시작");
                     GameManager.instance.GameStart();
                 }
                 break;
-            case "80B":
+            case "80b":
                 Debug.Log("Player 1번 소화기");
                 GameManager.instance.SendPortToPlayer(0);
 
                 break;
-            case "80C":
+            case "80c":
                 Debug.Log("Player 2번 소화기");
                 GameManager.instance.SendPortToPlayer(1);
                 break;
-            case "80D":
+            case "80d":
                 Debug.Log("Player 3번 소화기");
                 GameManager.instance.SendPortToPlayer(2);
                 break;
@@ -40,4 +41,5 @@ public class CustomSPManager : SerialPortManager
         }
 
     }
+   
 }
