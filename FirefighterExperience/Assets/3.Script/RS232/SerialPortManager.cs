@@ -99,7 +99,7 @@ public class SerialPortManager : MonoBehaviour
                 string processed = TryGetCompleteMessage(serialBuffer.ToString()); // (2)
                 if (processed != null) // (3)
                 {
-                    Debug.Log("완전한 데이터 수신: " + processed); // (4)
+                    //Debug.Log("완전한 데이터 수신: " + processed); // (4)
                     serialBuffer.Clear(); // (5)
                 }
                 return processed;
@@ -149,7 +149,6 @@ public class SerialPortManager : MonoBehaviour
     protected virtual void ReceivedData(string data)
     {
         //상속하고 받은데이터로 프로젝트에 맞는 기능 구현
-        //Debug.Log($"{data} 신호보내기");
 
     }
 

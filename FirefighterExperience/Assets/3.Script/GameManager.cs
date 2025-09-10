@@ -49,7 +49,7 @@ public class GameManager : MonoBehaviour
     public float currentTime;
     public bool startGame;
     public event Action onGameEnd;
-    public bool ReadyWater;
+    public bool readyWater;
 
     public bool FastPlay;
     private void Awake()
@@ -71,9 +71,11 @@ public class GameManager : MonoBehaviour
         igniteGroup.Add(igniteSwitches_2);
         igniteGroup.Add(igniteSwitches_3);
         AudioManager.Instance.StopBGM();
-        //Application.runInBackground = true;
-        ///*if (Display.displays.Length > 1) */Display.displays[1].Activate();
-        ///*if (Display.displays.Length > 2) */Display.displays[2].Activate();
+        Application.runInBackground = true;
+        if (Display.displays.Length > 1)
+            Display.displays[1].Activate();
+        if (Display.displays.Length > 2)
+            Display.displays[2].Activate();
         GameEnd();
 
         if (Application.isEditor)
@@ -108,7 +110,7 @@ public class GameManager : MonoBehaviour
         {
             Time.timeScale = 1;
         }
-        if (ReadyWater)
+        if (readyWater)
         {
             if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -139,7 +141,7 @@ public class GameManager : MonoBehaviour
         currentTime = 0;
         nextIgniteTime = 0;
         startGame = false;
-        ReadyWater = false;
+        readyWater = false;
         FadeScreen(1);
         for (int i = 0; i < particleFadeControllers.Length; i++)
         {
@@ -181,15 +183,18 @@ public class GameManager : MonoBehaviour
 
             }
         }
-       
-           
-       
+
+
+
 
     }
-    
+
     public void SendPortToPlayer(int index)
     {
-        players[index].UpdatePlaying();
+        if (readyWater)
+        {
+            players[index].UpdatePlaying();
+        }
     }
 
     public IEnumerator GameStartDelay(float delay)
@@ -197,7 +202,7 @@ public class GameManager : MonoBehaviour
 
 
         yield return new WaitForSeconds(delay);
-        ReadyWater = true;
+        readyWater = true;
         Instantiate(fakeWindows[0]);
         Instantiate(fakeWindows[0]);
         Instantiate(fakeWindows[1]);
