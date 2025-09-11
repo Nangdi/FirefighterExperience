@@ -37,6 +37,10 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private List<IgniteSwitch[]> igniteGroup = new List<IgniteSwitch[]>();
 
+    [SerializeField] private Camera cam1;
+    [SerializeField] private Camera cam2;
+    [SerializeField] private Camera cam3;
+
     [SerializeField] private IgniteSwitch[] igniteSwitches_1;
     [SerializeField] private IgniteSwitch[] igniteSwitches_2;
     [SerializeField] private IgniteSwitch[] igniteSwitches_3;
@@ -72,10 +76,17 @@ public class GameManager : MonoBehaviour
         igniteGroup.Add(igniteSwitches_3);
         AudioManager.Instance.StopBGM();
         Application.runInBackground = true;
+        cam1.targetDisplay = JsonManager.instance.gameSettingData.displayIndex[0];
         if (Display.displays.Length > 1)
+        {
             Display.displays[1].Activate();
+            cam2.targetDisplay = JsonManager.instance.gameSettingData.displayIndex[1];
+        }
         if (Display.displays.Length > 2)
+        {
             Display.displays[2].Activate();
+            cam3.targetDisplay = JsonManager.instance.gameSettingData.displayIndex[2];
+        }
         GameEnd();
 
         if (Application.isEditor)
@@ -142,7 +153,7 @@ public class GameManager : MonoBehaviour
         nextIgniteTime = 0;
         startGame = false;
         readyWater = false;
-        FadeScreen(1);
+        StartCoroutine(FadeScreen(1));
         for (int i = 0; i < particleFadeControllers.Length; i++)
         {
             particleFadeControllers[i].StopParticle();
@@ -155,7 +166,7 @@ public class GameManager : MonoBehaviour
         startGame = true;
         IgniteSmoke();
         Debug.Log("브금재생되는곳");
-        FadeScreen(0);
+        //FadeScreen(0);
         AudioManager.Instance.PlayBGM();
         StartCoroutine(FireManager.instance.ReservationBurnWall_co(35));
         StartCoroutine(GameStartDelay(JsonManager.instance.gameSettingData.ReadyTime));
@@ -217,10 +228,16 @@ public class GameManager : MonoBehaviour
         AudioManager.Instance.PlaySFX(1,  false, 3);
         Debug.Log("게임시작!");
     }
-    public void FadeScreen(float targetAlpha)
+    public IEnumerator FadeScreen(float targetAlpha)
     {
         //StopAllCoroutines(); // 여러 코루틴이 겹치지 않도록
         StartCoroutine(FadeCoroutine(targetAlpha));
+
+        yield return new WaitForSeconds(5f);
+
+        StartCoroutine(FadeCoroutine(0));
+
+
     }
 
     private IEnumerator FadeCoroutine(float targetAlpha)

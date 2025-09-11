@@ -15,6 +15,7 @@ public class GameSettingData
     public float warterDelay = 5f;
     //컨트롤러신호대기시간 (게임준비시간)
     public float ReadyTime = 45f;
+    public int[] displayIndex = { 0, 1, 2 };
 }
 public class PortJson
 {

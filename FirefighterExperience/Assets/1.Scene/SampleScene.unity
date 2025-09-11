@@ -1718,6 +1718,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gameSettingPanel: {fileID: 0}
+  cam1: {fileID: 2081310871}
+  cam2: {fileID: 981426242}
+  cam3: {fileID: 1232232190}
   igniteSwitches_1:
   - {fileID: 199099841392212306}
   - {fileID: 1456814418}
@@ -6673,7 +6676,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -8145,6 +8148,11 @@ PrefabInstance:
         type: 3}
       propertyPath: SizeModule.separateAxes
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2016467402162100188, guid: 0178c8a083933d34089e26cceec9eb90,
+        type: 3}
+      propertyPath: InitialModule.maxNumParticles
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 2016467402162100188, guid: 0178c8a083933d34089e26cceec9eb90,
         type: 3}
